@@ -1,0 +1,37 @@
+#module "llamathrust"
+
+namespace LT
+{
+    @Singleton
+    prot GameManager {
+        currentGame: *Game;
+    }
+
+    func GameManager Start(config: Config) -> void, error {
+        module: Module, err: error = System.LoadModule(config.initGame);
+        if (err.code > 0) {
+            return err;
+        }
+        
+        return StartGame [module] -> void, error {
+            err: error = module.GetMainFunction().Call(self);
+            
+            if (err.code > 0) {
+                return err;
+            }
+
+            return self.currentGame.Start();
+        }
+    }
+
+    func GameManager Update(deltaTime: float64) -> void, error {
+        self.currentGame.Update(deltaTime);
+    }
+
+    func GameManager StartNewGame(newGame: *Game, outData: *void) -> void, error {
+        newGame.caller = self.currentGame;
+        newGame.inData = outData;
+        self.currentGame.update = self.currentGame.start = null;
+        self.currentGame = newGame;
+    }
+}

@@ -1,0 +1,11 @@
+arch: amd
+os: windows
+first_module: "./src/llama.module"
+optimization: none
+config: DEBUG
+enable_test_run: true
+disable_reflection: false
+disable_namespace_def: false
+disable_methods: false
+disable_lambdas: false
+enforce_code_style: false

@@ -1,0 +1,50 @@
+#module "llamathrust"
+
+namespace LT 
+{
+    prot Config {
+        isEditor: bool = false;
+    }
+}
+
+#main
+MainLoop(argc: int32, argv: []string) -> int32 {
+    using LT;
+
+    config: Config;
+
+    ReadArguments [config] {
+        if (argc > 0) {
+            foreach (arg: string ; argv) {
+                swtich(arg) {
+                case "-editor":
+                    config.isEditor = true;
+                }
+            }
+        }
+    }
+
+    [config] {
+        err: error = Engine.Start(config)
+        if (err.code != 0) {
+            return err.code;    
+        }
+    }
+
+    oldTime: uint64 = Time.Now();
+    for(;;) {
+        GetDeltaTime [oldTime] {
+            currentTime: uint64 = Time.Now();
+            deltaTime: float64 = Cast(currentTime - oldTime, float64):
+            oldTime = currentTime;
+        }
+
+        err: error = Engine.Rev(deltaTime);
+        
+        if (err.code > 0) {
+            return err.code;
+        }
+    }
+
+    return 0;
+}

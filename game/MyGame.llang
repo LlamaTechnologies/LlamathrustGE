@@ -1,0 +1,24 @@
+#module "MyGame"
+
+#include "llamathrust"
+
+prot MyGame {
+    using game: Game {
+        name = "MyGame",
+        start = self.MyGameStart,
+        update = self.MyGameUpdate
+    };
+}
+
+func MyGame MyGameStart() -> void, error {
+    print("MyGame started!");
+}
+
+func MyGame MyGameUpdate(deltaTime: float64) -> void, error {
+    print("MyGame step delta: {}", deltaTime);
+}
+
+#main
+GetMainGame(gameManager: *LT.GameManager) -> void, error {
+    gameManager.currentGame = new(MyGame);
+}

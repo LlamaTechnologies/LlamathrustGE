@@ -1,0 +1,4 @@
+name: 'MyGame'
+folder: '.'
+export_module_info: true
+type: dlib

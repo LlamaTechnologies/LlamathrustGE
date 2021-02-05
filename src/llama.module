@@ -1,0 +1,4 @@
+name: 'llamathrust'
+folder: '.'
+export_module_info: false
+type: exe

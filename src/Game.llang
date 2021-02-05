@@ -1,0 +1,20 @@
+#module "llamathrust"
+
+namespace LT
+{
+    prot Game {
+        name: string;
+        caller: *Game = null;
+        inData: *void = null;
+        start: func() -> void, error = null;
+        update: func(float64) -> void, error = null;
+    }
+
+    func Game Start(deltaTime: float64) -> void, error {
+        return self.start(deltaTime);
+    }
+
+    func Game Update(deltaTime: float64) -> void, error {
+        return self.update(deltaTime);
+    }
+}
