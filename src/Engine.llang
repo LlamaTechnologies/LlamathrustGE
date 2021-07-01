@@ -1,18 +1,21 @@
-#module "llamathrust"
+#load Config
+#load GameManager
+#load Rendering
+#load Networking
 
 namespace LT.Engine 
 {
-    func Engine Start(config: *Config) -> void, error {
-        FileSystem.Start(config);
+    func Start(config *Config) void, error {
+        FileSystem.Start(config)
 
-        Rendering.Start(config);
+        Rendering.Start(config)
 
-        Networking.Start(config);
+        Networking.Start(config)
         
-        GameManager.Start(config);
+        GameManager.Start(config)
     }
 
-    func Engine Rev(deltaTime: float64) -> void, error {
-        return GameManager.Update(deltaTime);
+    func Rev(deltaTime f64) void, error {
+        ret GameManager.Update(deltaTime)
     }
 }

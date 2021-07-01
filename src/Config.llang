@@ -1,0 +1,7 @@
+
+namespace LT 
+{
+    prot Config {
+        isEditor bool = false
+    }
+}

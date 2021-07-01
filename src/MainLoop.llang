@@ -1,50 +1,45 @@
-#module "llamathrust"
-
-namespace LT 
-{
-    prot Config {
-        isEditor: bool = false;
-    }
-}
+#load Config
+#load Engine
 
 #main
-MainLoop(argc: int32, argv: []string) -> int32 {
-    using LT;
+MainLoop(argc i32, argv []string) i32 {
+    using LT
 
-    config: Config;
+    config Config
 
     ReadArguments [config] {
         if (argc > 0) {
-            foreach (arg: string ; argv) {
+            loop (arg string : argv) {
                 swtich(arg) {
                 case "-editor":
-                    config.isEditor = true;
+                    config.isEditor = true
                 }
             }
         }
     }
 
     [config] {
-        err: error = Engine.Start(config)
+        err := Engine.Start(config)
         if (err.code != 0) {
-            return err.code;    
+            ret err.code
         }
     }
 
-    oldTime: uint64 = Time.Now();
-    for(;;) {
+    oldTime u64 = Time.Now()
+    
+    loop {
         GetDeltaTime [oldTime] {
-            currentTime: uint64 = Time.Now();
-            deltaTime: float64 = Cast(currentTime - oldTime, float64):
-            oldTime = currentTime;
+            currentTime u64 = Time.Now()
+            deltaTime f64 = Cast(currentTime - oldTime, f64)
+            oldTime = currentTime
         }
 
-        err: error = Engine.Rev(deltaTime);
+        err := Engine.Rev(deltaTime);
         
         if (err.code > 0) {
-            return err.code;
+            ret err.code
         }
     }
 
-    return 0;
+    ret 0
 }
